@@ -5,11 +5,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class UserModel {
     String username;
     String password;
-//    String firstName;
+    String grant_type;
     String lastName;
     String email;
-    String confirmEmail;
     String confirmPassword;
+    Userroles userrole;
 
     public String getUsername() {
         return username;
@@ -27,14 +27,6 @@ public class UserModel {
         this.password = password;
     }
 
-//    public String getFirstName() {
-//        return firstName;
-//    }
-//
-//    public void setFirstName(String firstName) {
-//        this.firstName = firstName;
-//    }
-
     public String getLastName() {
         return lastName;
     }
@@ -51,14 +43,6 @@ public class UserModel {
         this.email = email;
     }
 
-    public String getConfirmEmail() {
-        return confirmEmail;
-    }
-
-    public void setConfirmEmail(String confirmEmail) {
-        this.confirmEmail = confirmEmail;
-    }
-
     public String getConfirmPassword() {
         return confirmPassword;
     }
@@ -67,14 +51,50 @@ public class UserModel {
         this.confirmPassword = confirmPassword;
     }
 
+    public Userroles getUserrole() {
+        return userrole;
+    }
+
+    public void setUserrole(Userroles userrole) {
+        this.userrole = userrole;
+    }
+
+    public String getGrant_type() {
+        return grant_type;
+    }
+
+    public void setGrant_type(String grant_type) {
+        this.grant_type = grant_type;
+    }
 
     @Override
-    public String toString(){
+    public String toString() {
         try {
             return new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(this);
         } catch (com.fasterxml.jackson.core.JsonProcessingException e) {
             System.err.println(e);
         }
         return null;
+    }
+
+    public class Userroles{
+        String admin;
+        String user;
+
+        public String getAdmin() {
+            return admin;
+        }
+
+        public void setAdmin(String admin) {
+            this.admin = admin;
+        }
+
+        public String getUser() {
+            return user;
+        }
+
+        public void setUser(String user) {
+            this.user = user;
+        }
     }
 }

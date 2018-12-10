@@ -17,4 +17,6 @@ INSERT INTO
     refresh_token_validity,autoapprove)
   values ('democlient','securitydemoservice','$2a$10$18h4zM9cP.fffd7DvnYss.ao/6P7j/Yg/lpNMjeM08FfNaZU5JfPu','read,write,trust',
     'password','admin',300,
+    300,'true'),('client','securitydemoservice','$2a$10$18h4zM9cP.fffd7DvnYss.ao/6P7j/Yg/lpNMjeM08FfNaZU5JfPu','read,write,trust',
+    'authorization_code','admin',300,
     300,'true');

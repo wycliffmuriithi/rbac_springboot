@@ -13,8 +13,9 @@
 <body>
 <div class="container">
     <h1>Logged In! </h1>
-    <p th:text="'Welcome: ' + ${usermodel.username}"/>
+    <span th:text="'Welcome: ' + ${usermodel.username}"> <a href="/" th:href="@{/api/login?logout}">Logout</a></span>
 </div>
+
 
 <script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>
 <script type="text/javascript" th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>

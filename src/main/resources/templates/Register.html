@@ -60,16 +60,6 @@
                        th:text="${error}">Validation error</p>
                 </div>
                 <div class="form-group"
-                     th:classappend="${#fields.hasErrors('confirmEmail')}? 'has-error':''">
-                    <label for="confirmEmail" class="control-label">Confirm e-mail</label>
-                    <input id="confirmEmail"
-                           class="form-control"
-                           th:field="*{confirmEmail}"/>
-                    <p class="error-message"
-                       th:each="error : ${#fields.errors('confirmEmail')}"
-                       th:text="${error}">Validation error</p>
-                </div>
-                <div class="form-group"
                      th:classappend="${#fields.hasErrors('password')}? 'has-error':''">
                     <label for="password" class="control-label">Password</label>
                     <input id="password"
@@ -91,6 +81,27 @@
                        th:each="error : ${#fields.errors('password')}"
                        th:text="${error}">Validation error</p>
                 </div>
+                <ul>
+                    <li th:each="radioValue: ${userrole}">
+                        <input type="radio"
+                               th:field="*{radioButtonSelectedValue}"
+                               th:value="${radioValue}" />
+                        <label
+                                th:for="${#ids.prev('radioButtonSelectedValue')}"
+                                th:text="${radioValue}"></label>
+                    </li>
+                </ul>
+                <!--<div class="form-group"-->
+                     <!--th:classappend="${#fields.hasErrors('userrole')}? 'has-error':''">-->
+                <!--<ul>-->
+                    <!--<li th:each="ty : ${userrole}">-->
+                        <!--<input type="radio" th:field="*{Admin}" th:value="${Admin}" />-->
+                        <!--<label th:for="${#ids.prev('type')}" th:text="#{${'seedstarter.type.' + Admin}}">admin</label>-->
+                        <!--&lt;!&ndash;<input type="radio" th:field="*{User}" th:value="${User}" />&ndash;&gt;-->
+                        <!--&lt;!&ndash;<label th:for="${#ids.prev('type')}" th:text="#{${'seedstarter.type.' + User}}">User</label>&ndash;&gt;-->
+                    <!--</li>-->
+                <!--</ul>-->
+                <!--</div>-->
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-success">Register</button>

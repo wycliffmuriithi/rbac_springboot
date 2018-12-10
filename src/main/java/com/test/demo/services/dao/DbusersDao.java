@@ -39,6 +39,7 @@ public class DbusersDao {
             DBUsers dbUser = new DBUsers();
             dbUser.setUsername(username);
             dbUser.setPassword(encoder.encode(password));
+            dbUser.setRegistrationdate(new Date());
             dbUser.setRoles(new HashSet<>(roleRepo.findAll()));
 
             dbusersRepo.save(dbUser);
@@ -48,6 +49,11 @@ public class DbusersDao {
            return false;
         }
 
+    }
+
+    @Transactional
+    public List<DBUsers> allUsers(){
+        return dbusersRepo.findAll();
     }
 
 }

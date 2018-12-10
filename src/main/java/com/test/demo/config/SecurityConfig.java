@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -16,13 +17,13 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-
+/**
+ * configure security for the web application. Configures the basic page redirects
+ */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    @Autowired
-    UserService userService;
 
 
     @Override
@@ -31,15 +32,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
+    /**
+     * password hash bean for the application
+     *
+     * @return
+     */
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    @Autowired
-    public void globalUserDetails(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-        authenticationManagerBuilder.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder());
-    }
+    /**
+     * configure who can access what page
+     *
+     * @param http
+     * @throws Exception
+     */
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
@@ -47,21 +55,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anonymous().disable()
                 .authorizeRequests()
                 .antMatchers("/login").permitAll()
-                .antMatchers("/home/**").hasAnyRole("ADMIN","USER")
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .and().exceptionHandling().accessDeniedPage("/api/denied");
+                .antMatchers("/app/**").authenticated()
+                .and()
+                .formLogin().loginPage("/api/login")
+                .failureForwardUrl("/api/login")
+                .successForwardUrl("/app/index")
+                .and().logout().permitAll()
+                ;
     }
-    @Bean
-    public FilterRegistrationBean corsFilter() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);
-        config.addAllowedOrigin("*");
-        config.addAllowedHeader("*");
-        config.addAllowedMethod("*");
-        source.registerCorsConfiguration("/**", config);
-        FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
-        bean.setOrder(0);
-        return bean;
-    }
+
 }

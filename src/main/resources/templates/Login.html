@@ -16,8 +16,8 @@
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
             <h1>Login page</h1>
-            <form th:action="@{/oauth/token}" th:object="${usermodel}" method="post">
-                <div th:if="${param.error}">
+            <form th:action="@{/api/login}" th:object="${usermodel}" method="post">
+                <div th:if="${incorrectdetails}">
                     <div class="alert alert-danger">
                         Invalid username or password.
                     </div>
@@ -46,6 +46,10 @@
                            placeholder="Password"
                            th:field="*{password}"/>
                 </div>
+                <input type="hidden"  id="grant_type"
+                      name="grant_type"
+                      value="password"
+                      th:field="*{grant_type}"/>
                 <div class="form-group">
                     <div class="row">
                         <div class="col-sm-6 col-sm-offset-3">
